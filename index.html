@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAWI LATIN TO CYRILLIC - Convert Latin Text to Cyrillic</title>
+    <link rel="icon" type="image/x-icon" href="icons/icon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary-color: #10b981;
+            --accent-color: #f59e0b;
+            --danger-color: #ef4444;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8fafc;
+            --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --border-color: #e5e7eb;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+            --radius-sm: 0.375rem;
+            --radius-md: 0.5rem;
+            --radius-lg: 0.75rem;
+            --radius-xl: 1rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Cairo', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        [dir="rtl"] {
+            font-family: 'Cairo', 'Inter', sans-serif;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            background: var(--bg-primary);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 0.5rem;
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: transparent;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: var(--bg-secondary);
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: var(--bg-primary);
+            padding: 2.5rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            display: block;
+            border-radius: var(--radius-lg);
+        }
+        
+        h1 {
+            color: var(--text-primary);
+            font-size: clamp(2rem, 5vw, 3rem);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: clamp(1rem, 3vw, 1.25rem);
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Main Tools Section */
+        .tools-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .tool-card {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-xl), 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .tool-card h2 {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .tool-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 120px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+            background: var(--bg-primary);
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .detection-output {
+            min-height: 120px;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            background: var(--bg-primary);
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+        
+        .mode-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .mode-option {
+            position: relative;
+        }
+        
+        .mode-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .mode-option label {
+            display: block;
+            padding: 1rem;
+            border: 2px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--bg-primary);
+            margin-bottom: 0;
+        }
+        
+        .mode-option input[type="radio"]:checked + label {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            transform: scale(1.02);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--radius-lg);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            min-width: 160px;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg), 0 10px 25px rgba(37, 99, 235, 0.4);
+        }
+        
+        .btn-extension {
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+        }
+        
+        .btn-extension:hover {
+            box-shadow: var(--shadow-lg), 0 10px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        /* Features Section */
+        .features-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .feature-card {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+        }
+        
+        .feature-card h2 {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-list li {
+            margin-bottom: 1rem;
+            padding-left: 2rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+        
+        .feature-list li:before {
+            content: 'check';
+            font-family: 'Material Icons';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+        
+        .links-section {
+            background: var(--bg-primary);
+            padding: 2rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .links-section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            font-size: 1.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .link-item {
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .link-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .link-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .link-item a:hover {
+            color: var(--primary-dark);
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--bg-primary);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-xl);
+            color: var(--text-secondary);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .cyrillic-highlight {
+            background-color: var(--danger-color);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .language-toggle {
+                top: 0.5rem;
+                right: 0.5rem;
+            }
+            
+            header {
+                padding: 1.5rem;
+                margin-bottom: 2rem;
+            }
+            
+            .tools-section,
+            .features-section {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .mode-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .tool-card,
+            .feature-card {
+                padding: 1.5rem;
+            }
+
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0.75rem;
+            }
+
+            .tool-card,
+            .feature-card {
+                padding: 1rem;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 0.875rem 1.5rem;
+            }
+        }
+
+        /* Hidden class for language switching */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button class="lang-btn active" onclick="switchLanguage('en')">
+            <span class="material-icons">language</span>
+            EN
+        </button>
+        <button class="lang-btn" onclick="switchLanguage('ar')">
+            <span class="material-icons">language</span>
+            عربي
+        </button>
+    </div>
+
+    <div class="container">
+        <header>
+            <img src="icons/icon.png" alt="MAWI Logo" class="logo">
+            <h1 data-en="MAWI LATIN TO CYRILLIC" data-ar="مَاوِي لاتيني إلى سيريلي">MAWI LATIN TO CYRILLIC</h1>
+            <p class="subtitle" data-en="Advanced Latin to Cyrillic Text Converter & Cyrillic Character Detection Tool" data-ar="أداة متقدمة لتحويل النص اللاتيني إلى السيريلي وكشف الأحرف السيريلية">Advanced Latin to Cyrillic Text Converter & Cyrillic Character Detection Tool</p>
+        </header>
+        
+        <!-- Main Tools Section -->
+        <div class="tools-section">
+            <div class="tool-card">
+                <h2>
+                    <span class="tool-icon">
+                        <span class="material-icons">search</span>
+                    </span>
+                    <span data-en="Cyrillic Character Detector" data-ar="كاشف الأحرف السيريلية">Cyrillic Character Detector</span>
+                </h2>
+                <div class="input-group">
+                    <label for="detectorText" data-en="Enter Text to Detect Cyrillic Characters:" data-ar="أدخل النص لكشف الأحرف السيريلية:">Enter Text to Detect Cyrillic Characters:</label>
+                    <textarea id="detectorText" data-en-placeholder="Type or paste text here to detect Cyrillic characters..." data-ar-placeholder="اكتب أو الصق النص هنا لكشف الأحرف السيريلية..." placeholder="Type or paste text here to detect Cyrillic characters..."></textarea>
+                </div>
+                
+                <div class="input-group">
+                    <label for="detectorOutput" data-en="Detection Result:" data-ar="نتيجة الكشف:">Detection Result:</label>
+                    <div id="detectorOutput" class="detection-output" data-en="Detection results will appear here..." data-ar="ستظهر نتائج الكشف هنا...">Detection results will appear here...</div>
+                </div>
+            </div>
+
+            <div class="tool-card">
+                <h2>
+                    <span class="tool-icon">
+                        <span class="material-icons">transform</span>
+                    </span>
+                    <span data-en="Latin to Cyrillic Converter" data-ar="محول لاتيني إلى سيريلي">Latin to Cyrillic Converter</span>
+                </h2>
+                <div class="input-group">
+                    <label for="inputText" data-en="Enter Latin Text:" data-ar="أدخل النص اللاتيني:">Enter Latin Text:</label>
+                    <textarea id="inputText" data-en-placeholder="Type your Latin text here..." data-ar-placeholder="اكتب النص اللاتيني هنا..." placeholder="Type your Latin text here..."></textarea>
+                </div>
+                
+                <div class="mode-selector">
+                    <div class="mode-option">
+                        <input type="radio" id="normalMode" name="conversionMode" value="normal" checked>
+                        <label for="normalMode">
+                            <strong data-en="Normal Mode" data-ar="الوضع العادي">Normal Mode</strong><br>
+                            <small data-en="Converts all Latin characters" data-ar="يحول جميع الأحرف اللاتينية">Converts all Latin characters</small>
+                        </label>
+                    </div>
+                    <div class="mode-option">
+                        <input type="radio" id="professionalMode" name="conversionMode" value="professional">
+                        <label for="professionalMode">
+                            <strong data-en="Professional Mode" data-ar="الوضع الاحترافي">Professional Mode</strong><br>
+                            <small data-en="Converts visually similar only" data-ar="يحول المتشابهات بصرياً فقط">Converts visually similar only</small>
+                        </label>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="convertText()">
+                    <span class="material-icons">transform</span>
+                    <span data-en="Convert to Cyrillic" data-ar="تحويل إلى سيريلي">Convert to Cyrillic</span>
+                </button>
+                
+                <div class="input-group" style="margin-top: 1.5rem;">
+                    <label for="outputText" data-en="Converted Cyrillic Text:" data-ar="النص السيريلي المحول:">Converted Cyrillic Text:</label>
+                    <textarea id="outputText" data-en-placeholder="Converted text will appear here..." data-ar-placeholder="سيظهر النص المحول هنا..." placeholder="Converted text will appear here..." readonly></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Features Section -->
+        <div class="features-section">
+            <div class="feature-card">
+                <h2>
+                    <span class="tool-icon">
+                        <span class="material-icons">extension</span>
+                    </span>
+                    <span data-en="Extension Features" data-ar="ميزات الإضافة">Extension Features</span>
+                </h2>
+                <ul class="feature-list">
+                    <li><strong data-en="Auto-Detection:" data-ar="الكشف التلقائي:">Auto-Detection:</strong> <span data-en="Automatically detects Cyrillic characters in any text field" data-ar="يكشف تلقائياً الأحرف السيريلية في أي حقل نص">Automatically detects Cyrillic characters in any text field</span></li>
+                    <li><strong data-en="Visual Highlighting:" data-ar="التمييز البصري:">Visual Highlighting:</strong> <span data-en="Highlights detected Cyrillic characters in red" data-ar="يميز الأحرف السيريلية المكتشفة باللون الأحمر">Highlights detected Cyrillic characters in red</span></li>
+                    <li><strong data-en="Real-time Warnings:" data-ar="تحذيرات فورية:">Real-time Warnings:</strong> <span data-en="Instant alerts when Cyrillic characters are found" data-ar="تنبيهات فورية عند العثور على أحرف سيريلية">Instant alerts when Cyrillic characters are found</span></li>
+                    <li><strong data-en="Link Protection:" data-ar="حماية الروابط:">Link Protection:</strong> <span data-en="Prevents opening suspicious URLs with confirmation dialog" data-ar="يمنع فتح الروابط المشبوهة مع حوار تأكيد">Prevents opening suspicious URLs with confirmation dialog</span></li>
+                </ul>
+                <a href="https://chromewebstore.google.com/category/extensions" class="btn btn-extension" target="_blank">
+                    <span class="material-icons">download</span>
+                    <span data-en="Download Chrome Extension" data-ar="تحميل إضافة كروم">Download Chrome Extension</span>
+                </a>
+            </div>
+            
+            <div class="feature-card">
+                <h2>
+                    <span class="tool-icon">
+                        <span class="material-icons">web</span>
+                    </span>
+                    <span data-en="Website Features" data-ar="ميزات الموقع">Website Features</span>
+                </h2>
+                <ul class="feature-list">
+                    <li><strong data-en="Normal Mode:" data-ar="الوضع العادي:">Normal Mode:</strong> <span data-en="Converts all Latin characters to Cyrillic equivalents" data-ar="يحول جميع الأحرف اللاتينية إلى مكافئاتها السيريلية">Converts all Latin characters to Cyrillic equivalents</span></li>
+                    <li><strong data-en="Professional Mode:" data-ar="الوضع الاحترافي:">Professional Mode:</strong> <span data-en="Converts only visually similar characters" data-ar="يحول الأحرف المتشابهة بصرياً فقط">Converts only visually similar characters</span></li>
+                    <li><strong data-en="Instant Conversion:" data-ar="التحويل الفوري:">Instant Conversion:</strong> <span data-en="Real-time text transformation" data-ar="تحويل النص في الوقت الفعلي">Real-time text transformation</span></li>
+                    <li><strong data-en="Copy & Paste:" data-ar="نسخ ولصق:">Copy & Paste:</strong> <span data-en="Easy text manipulation and export" data-ar="معالجة وتصدير النص بسهولة">Easy text manipulation and export</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="links-section">
+            <h2>
+                <span class="tool-icon">
+                    <span class="material-icons">link</span>
+                </span>
+                <span data-en="Resources & Links" data-ar="الموارد والروابط">Resources & Links</span>
+            </h2>
+            <div class="links-grid">
+                <div class="link-item">
+                    <strong data-en="GitHub Repository" data-ar="مستودع جيت هاب">GitHub Repository</strong><br>
+                    <a href="https://github.com/mawi-officiel/MAWI_TAP_AURA" target="_blank">
+                        <span class="material-icons">code</span>
+                        <span data-en="View Source Code" data-ar="عرض الكود المصدري">View Source Code</span>
+                    </a>
+                </div>
+                <div class="link-item">
+                    <strong data-en="Developer Article" data-ar="مقال المطور">Developer Article</strong><br>
+                    <a href="https://www.mawiman.com/2025/08/mawi-latin-to-cyrillic.html" target="_blank">
+                        <span class="material-icons">article</span>
+                        <span data-en="Read Full Article" data-ar="قراءة المقال كاملاً">Read Full Article</span>
+                    </a>
+                </div>
+                <div class="link-item">
+                    <strong data-en="Chrome Web Store" data-ar="متجر كروم الإلكتروني">Chrome Web Store</strong><br>
+                    <a href="https://chromewebstore.google.com/category/extensions" target="_blank">
+                        <span class="material-icons">extension</span>
+                        <span data-en="Download Extension" data-ar="تحميل الإضافة">Download Extension</span>
+                    </a>
+                </div>
+                <div class="link-item">
+                    <strong data-en="Live Web Tool" data-ar="الأداة المباشرة">Live Web Tool</strong><br>
+                    <a href="https://mawi-officiel.github.io/MAWI_LATIN_TO_CYRILLIC/" target="_blank">
+                        <span class="material-icons">launch</span>
+                        <span data-en="Use Online" data-ar="استخدم أونلاين">Use Online</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p data-en="All rights reserved © Ayoub Alarjani (MAWI MAN) — Developer Website: " data-ar="جميع الحقوق محفوظة © أيوب العرجاني (مَاوِي مان) — موقع المطور: ">All rights reserved © Ayoub Alarjani (MAWI MAN) — Developer Website: </p>
+            <a href="https://www.mawiman.com/" target="_blank">https://www.mawiman.com/</a>
+        </footer>
+    </div>
+    
+    <script>
+        // Language switching functionality
+        let currentLanguage = 'en';
+        
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            const html = document.documentElement;
+            const langButtons = document.querySelectorAll('.lang-btn');
+            
+            // Update HTML attributes
+            html.lang = lang;
+            html.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            
+            // Update active button
+            langButtons.forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.lang-btn').classList.add('active');
+            
+            // Update all translatable elements
+            const elements = document.querySelectorAll('[data-en], [data-ar]');
+            elements.forEach(element => {
+                const text = element.getAttribute(`data-${lang}`);
+                if (text) {
+                    element.textContent = text;
+                }
+            });
+            
+            // Update placeholders
+            const placeholderElements = document.querySelectorAll('[data-en-placeholder], [data-ar-placeholder]');
+            placeholderElements.forEach(element => {
+                const placeholder = element.getAttribute(`data-${lang}-placeholder`);
+                if (placeholder) {
+                    element.placeholder = placeholder;
+                }
+            });
+            
+            // Update detection output if it contains default text
+            const detectorOutput = document.getElementById('detectorOutput');
+            if (detectorOutput.textContent === 'Detection results will appear here...' || detectorOutput.textContent === 'ستظهر نتائج الكشف هنا...') {
+                detectorOutput.textContent = lang === 'en' ? 'Detection results will appear here...' : 'ستظهر نتائج الكشف هنا...';
+            }
+        }
+        
+        // Latin to Cyrillic conversion mappings
+        const normalMapping = {
+            'a': 'а', 'b': 'б', 'c': 'ц', 'd': 'д', 'e': 'е', 'f': 'ф', 'g': 'г', 'h': 'х',
+            'i': 'и', 'j': 'ј', 'k': 'к', 'l': 'л', 'm': 'м', 'n': 'н', 'o': 'о', 'p': 'п',
+            'q': 'к', 'r': 'р', 's': 'с', 't': 'т', 'u': 'у', 'v': 'в', 'w': 'в', 'x': 'х',
+            'y': 'у', 'z': 'з',
+            'A': 'А', 'B': 'Б', 'C': 'Ц', 'D': 'Д', 'E': 'Е', 'F': 'Ф', 'G': 'Г', 'H': 'Х',
+            'I': 'И', 'J': 'Ј', 'K': 'К', 'L': 'Л', 'M': 'М', 'N': 'Н', 'O': 'О', 'P': 'П',
+            'Q': 'К', 'R': 'Р', 'S': 'С', 'T': 'Т', 'U': 'У', 'V': 'В', 'W': 'В', 'X': 'Х',
+            'Y': 'У', 'Z': 'З'
+        };
+        
+        const professionalMapping = {
+            'a': 'а', 'c': 'с', 'e': 'е', 'o': 'о', 'p': 'р', 'x': 'х', 'y': 'у',
+            'A': 'А', 'B': 'В', 'C': 'С', 'E': 'Е', 'H': 'Н', 'K': 'К', 'M': 'М',
+            'O': 'О', 'P': 'Р', 'T': 'Т', 'X': 'Х', 'Y': 'У'
+        };
+        
+        function convertText() {
+            const inputText = document.getElementById('inputText').value;
+            const mode = document.querySelector('input[name="conversionMode"]:checked').value;
+            const mapping = mode === 'normal' ? normalMapping : professionalMapping;
+            
+            let convertedText = '';
+            for (let char of inputText) {
+                convertedText += mapping[char] || char;
+            }
+            
+            document.getElementById('outputText').value = convertedText;
+        }
+        
+        // Real-time Cyrillic detection
+        function detectCyrillic(text) {
+            const cyrillicRegex = /[\u0400-\u04FF]/g;
+            return cyrillicRegex.test(text);
+        }
+        
+        function highlightCyrillic(text) {
+            const cyrillicRegex = /[\u0400-\u04FF]/g;
+            return text.replace(cyrillicRegex, '<span class="cyrillic-highlight">$&</span>');
+        }
+        
+        // Add event listener for detector text
+        document.getElementById('detectorText').addEventListener('input', function() {
+            const text = this.value;
+            const outputDiv = document.getElementById('detectorOutput');
+            
+            if (text.trim() === '') {
+                outputDiv.innerHTML = currentLanguage === 'en' ? 'Detection results will appear here...' : 'ستظهر نتائج الكشف هنا...';
+                outputDiv.style.color = 'var(--text-secondary)';
+                this.style.borderColor = 'var(--border-color)';
+                this.style.backgroundColor = 'var(--bg-primary)';
+                return;
+            }
+            
+            if (detectCyrillic(text)) {
+                const highlightedText = highlightCyrillic(text);
+                outputDiv.innerHTML = highlightedText;
+                outputDiv.style.color = 'var(--text-primary)';
+                this.style.borderColor = 'var(--danger-color)';
+                this.style.backgroundColor = '#fef2f2';
+            } else {
+                outputDiv.innerHTML = text;
+                outputDiv.style.color = 'var(--text-primary)';
+                this.style.borderColor = 'var(--secondary-color)';
+                this.style.backgroundColor = '#f0fdf4';
+            }
+        });
+        
+        // Add event listener for input text
+        document.getElementById('inputText').addEventListener('input', function() {
+            const text = this.value;
+            if (detectCyrillic(text)) {
+                this.style.borderColor = 'var(--danger-color)';
+                this.style.backgroundColor = '#fef2f2';
+            } else {
+                this.style.borderColor = 'var(--border-color)';
+                this.style.backgroundColor = 'var(--bg-primary)';
+            }
+        });
+        
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial language
+            switchLanguage('en');
+        });
+    </script>
+</body>
+</html>

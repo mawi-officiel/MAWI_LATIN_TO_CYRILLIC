@@ -1,0 +1,52 @@
+{
+  "manifest_version": 3,
+  "name": "MAWI LATIN TO CYRILLIC",
+  "version": "2.0.2",
+  "description": "Detect Cyrillic characters in text fields and convert Latin text to Cyrillic with Normal and Professional modes.",
+  "author": "Ayoub Alarjani (MAWI MAN)",
+  "homepage_url": "https://www.mawiman.com/",
+  
+  "permissions": [
+    "activeTab",
+    "storage",
+    "contextMenus"
+  ],
+  
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["content.css"],
+      "run_at": "document_end"
+    }
+  ],
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "MAWI LATIN TO CYRILLIC",
+    "default_icon": {
+      "16": "icon.png",
+      "32": "icon.png",
+      "48": "icon.png",
+      "128": "icon.png"
+    }
+  },
+  
+  "icons": {
+    "16": "icon.png",
+    "32": "icon.png",
+    "48": "icon.png",
+    "128": "icon.png"
+  },
+  
+  "background": {
+    "service_worker": "background.js"
+  },
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["icon.png"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}

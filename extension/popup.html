@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAWI LATIN TO CYRILLIC</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --primary-hover: #1d4ed8;
+            --secondary-color: #64748b;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --background-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-background: rgba(255, 255, 255, 0.98);
+            --border-color: #e2e8f0;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --border-radius: 8px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            width: 380px;
+            min-height: 600px;
+            font-family: 'Inter', 'Noto Sans Arabic', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background-gradient);
+            color: var(--text-primary);
+            line-height: 1.5;
+            transition: var(--transition);
+        }
+        
+        body[dir="rtl"] {
+            font-family: 'Noto Sans Arabic', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        
+        .header {
+            background: var(--card-background);
+            padding: 24px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+        }
+        
+        .language-toggle {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        body[dir="rtl"] .language-toggle {
+            right: auto;
+            left: 16px;
+        }
+        
+        .language-toggle:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+        
+        .logo {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 12px;
+            display: block;
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
+        }
+        
+        .title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            letter-spacing: -0.025em;
+        }
+        
+        .subtitle {
+            font-size: 13px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+        
+        .content {
+            padding: 24px 20px;
+            background: var(--card-background);
+            max-height: 480px;
+            overflow-y: auto;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* Internet Explorer 10+ */
+        }
+        
+        .content::-webkit-scrollbar {
+            display: none; /* WebKit */
+        }
+        
+        .section {
+            margin-bottom: 24px;
+        }
+        
+        .section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .section-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-icon {
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+        
+        .input-group {
+            margin-bottom: 16px;
+        }
+        
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            resize: vertical;
+            min-height: 90px;
+            transition: var(--transition);
+            font-family: inherit;
+            background: white;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgb(37 99 235 / 0.1);
+        }
+        
+        .detection-output {
+            min-height: 90px;
+            padding: 12px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            background: #f8fafc;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-y: auto;
+            color: var(--text-secondary);
+        }
+        
+        .mode-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .mode-option {
+            position: relative;
+        }
+        
+        .mode-option input[type="radio"] {
+            display: none;
+        }
+        
+        .mode-option label {
+            margin-bottom: 0;
+            cursor: pointer;
+            padding: 12px 8px;
+            border: 2px solid var(--border-color);
+            border-radius: var(--border-radius);
+            display: block;
+            text-align: center;
+            transition: var(--transition);
+            font-size: 12px;
+            font-weight: 500;
+            background: white;
+        }
+        
+        .mode-option input[type="radio"]:checked + label {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn {
+            width: 100%;
+            background: var(--primary-color);
+            color: white;
+            padding: 12px 16px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: var(--shadow-sm);
+        }
+        
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: var(--secondary-color);
+        }
+        
+        .btn-secondary:hover {
+            background: #475569;
+        }
+        
+        .settings {
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            background: #f8fafc;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-top: 8px;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding: 14px 18px;
+            background: white;
+            border-radius: var(--border-radius);
+            border: 2px solid var(--border-color);
+            transition: var(--transition);
+            min-height: 50px;
+        }
+        
+        .setting-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .setting-item:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+            transform: translateY(-1px);
+        }
+        
+        .setting-label {
+            font-size: 14px;
+            color: var(--text-primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .setting-icon {
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+        
+        .toggle {
+            position: relative;
+            width: 48px;
+            height: 26px;
+            background: #cbd5e1;
+            border-radius: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid #e2e8f0;
+        }
+        
+        .toggle.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: var(--transition);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .toggle.active::after {
+            transform: translateX(20px);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .footer {
+            padding: 16px 20px;
+            text-align: center;
+            background: var(--card-background);
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .footer a:hover {
+            color: var(--primary-hover);
+            text-decoration: underline;
+        }
+        
+        .status {
+            padding: 10px 12px;
+            border-radius: var(--border-radius);
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 12px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        
+        .status.success {
+            background: #dcfce7;
+            color: var(--success-color);
+            border: 1px solid #bbf7d0;
+        }
+        
+        .status.warning {
+            background: #fef3c7;
+            color: var(--warning-color);
+            border: 1px solid #fde68a;
+        }
+        
+        .cyrillic-highlight {
+            background-color: #fef2f2;
+            color: var(--danger-color);
+            font-weight: 600;
+            padding: 2px 4px;
+            border-radius: 4px;
+            border: 1px solid #fecaca;
+        }
+        
+
+        
+        /* RTL Support */
+        body[dir="rtl"] .section-title {
+            flex-direction: row-reverse;
+        }
+        
+        body[dir="rtl"] .setting-label {
+            flex-direction: row-reverse;
+        }
+        
+        body[dir="rtl"] .btn {
+            flex-direction: row-reverse;
+        }
+        
+        body[dir="rtl"] .status {
+            flex-direction: row-reverse;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="language-toggle" id="languageToggle">
+            <span class="material-icons" style="font-size: 14px;">language</span>
+            <span id="languageText">العربية</span>
+        </button>
+        <img src="icon.png" alt="MAWI Logo" class="logo">
+        <div class="title" data-en="MAWI LATIN TO CYRILLIC" data-ar="ماوي لاتيني إلى سيريلي">MAWI LATIN TO CYRILLIC</div>
+        <div class="subtitle" data-en="Convert & Detect Cyrillic Characters" data-ar="تحويل واكتشاف الأحرف السيريلية">Convert & Detect Cyrillic Characters</div>
+    </div>
+    
+    <div class="content">
+        <div class="section">
+            <div class="section-title">
+                <span class="material-icons section-icon">search</span>
+                <span data-en="Cyrillic Character Detector" data-ar="كاشف الأحرف السيريلية">Cyrillic Character Detector</span>
+            </div>
+            <div class="input-group">
+                <label for="detectorText" data-en="Enter Text to Detect Cyrillic Characters:" data-ar="أدخل النص لاكتشاف الأحرف السيريلية:">Enter Text to Detect Cyrillic Characters:</label>
+                <textarea id="detectorText" data-placeholder-en="Type or paste text here to detect Cyrillic characters..." data-placeholder-ar="اكتب أو الصق النص هنا لاكتشاف الأحرف السيريلية..." placeholder="Type or paste text here to detect Cyrillic characters..." style="height: 90px;"></textarea>
+            </div>
+            
+            <div class="input-group">
+                <label data-en="Detection Result:" data-ar="نتيجة الكشف:">Detection Result:</label>
+                <div id="detectorOutput" class="detection-output" data-en="Detection results will appear here..." data-ar="ستظهر نتائج الكشف هنا...">Detection results will appear here...</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">
+                <span class="material-icons section-icon">transform</span>
+                <span data-en="Text Converter" data-ar="محول النصوص">Text Converter</span>
+            </div>
+            
+            <div class="input-group">
+                <label for="inputText" data-en="Latin Text:" data-ar="النص اللاتيني:">Latin Text:</label>
+                <textarea id="inputText" data-placeholder-en="Enter Latin text to convert..." data-placeholder-ar="أدخل النص اللاتيني للتحويل..." placeholder="Enter Latin text to convert..."></textarea>
+            </div>
+            
+            <div class="mode-selector">
+                <div class="mode-option">
+                    <input type="radio" id="normalMode" name="conversionMode" value="normal" checked>
+                    <label for="normalMode">
+                        <div data-en="Normal" data-ar="عادي">Normal</div>
+                        <small data-en="All characters" data-ar="جميع الأحرف">All characters</small>
+                    </label>
+                </div>
+                <div class="mode-option">
+                    <input type="radio" id="professionalMode" name="conversionMode" value="professional">
+                    <label for="professionalMode">
+                        <div data-en="Professional" data-ar="احترافي">Professional</div>
+                        <small data-en="Similar only" data-ar="المتشابه فقط">Similar only</small>
+                    </label>
+                </div>
+            </div>
+            
+            <button class="btn" id="convertBtn">
+                <span class="material-icons" style="font-size: 18px;">sync_alt</span>
+                <span data-en="Convert to Cyrillic" data-ar="تحويل إلى سيريلي">Convert to Cyrillic</span>
+            </button>
+            
+            <div class="input-group">
+                <label for="outputText" data-en="Cyrillic Text:" data-ar="النص السيريلي:">Cyrillic Text:</label>
+                <textarea id="outputText" data-placeholder-en="Converted text will appear here..." data-placeholder-ar="سيظهر النص المحول هنا..." placeholder="Converted text will appear here..." readonly></textarea>
+            </div>
+            
+            <button class="btn btn-secondary" id="copyBtn">
+                <span class="material-icons" style="font-size: 18px;">content_copy</span>
+                <span data-en="Copy to Clipboard" data-ar="نسخ إلى الحافظة">Copy to Clipboard</span>
+            </button>
+            
+            <div id="status" class="status" style="display: none;"></div>
+        </div>
+        
+        <div class="section settings">
+            <div class="section-title">
+                <span class="material-icons section-icon">settings</span>
+                <span data-en="Settings" data-ar="الإعدادات">Settings</span>
+            </div>
+            
+            <div class="setting-item">
+                <span class="setting-label">
+                    <span class="material-icons setting-icon">auto_awesome_motion</span>
+                    <span data-en="Auto-Detection" data-ar="الكشف التلقائي">Auto-Detection</span>
+                </span>
+                <div class="toggle active" id="detectionToggle"></div>
+            </div>
+            
+            <div class="setting-item">
+                <span class="setting-label">
+                    <span class="material-icons setting-icon">highlight</span>
+                    <span data-en="Highlighting" data-ar="التمييز">Highlighting</span>
+                </span>
+                <div class="toggle active" id="highlightToggle"></div>
+            </div>
+            
+            <div class="setting-item">
+                <span class="setting-label">
+                    <span class="material-icons setting-icon">warning</span>
+                    <span data-en="Warnings" data-ar="التحذيرات">Warnings</span>
+                </span>
+                <div class="toggle active" id="warningToggle"></div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <a href="https://www.mawiman.com/" target="_blank" data-en="© Ayoub Alarjani (MAWI MAN)" data-ar="© أيوب العرجاني (ماوي مان)">© Ayoub Alarjani (MAWI MAN)</a><br>
+        <a href="https://mawi-officiel.github.io/MAWI_LATIN_TO_CYRILLIC/" target="_blank" data-en="Visit Website" data-ar="زيارة الموقع">Visit Website</a>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
