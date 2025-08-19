@@ -149,7 +149,7 @@ In line with the project's privacy-first approach:
 
 **Project Owner**: Ayoub Alarjani (MAWI MAN)
 - **Website**: [https://www.mawiman.com/](https://www.mawiman.com/)
-- **Project Repository**: [GitHub](https://github.com/mawi-officiel/MAWI_TAP_AURA)
+- **Project Repository**: [GitHub](https://github.com/mawi-officiel/MAWI_LATIN_TO_CYRILLIC)
 
 For urgent matters or security concerns, please use the contact methods provided on the official website.
 

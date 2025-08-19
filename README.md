@@ -56,7 +56,7 @@ A powerful Chrome extension and web application that automatically detects Cyril
 #### Manual Installation (Developer Mode)
 1. Clone this repository:
    ```bash
-   git clone https://github.com/mawi-officiel/MAWI_TAP_AURA.git
+   git clone https://github.com/mawi-officiel/MAWI_LATIN_TO_CYRILLIC.git
    cd MAWI_LATIN_TO_CYRILLIC
    ```
 
@@ -170,7 +170,7 @@ MAWI_LATIN_TO_CYRILLIC/
 
 - **Live Website**: [https://mawi-officiel.github.io/MAWI_LATIN_TO_CYRILLIC/](https://mawi-officiel.github.io/MAWI_LATIN_TO_CYRILLIC/)
 - **Chrome Extension**: [Chrome Web Store](https://chromewebstore.google.com/detail/blldclkhnlhcinhjdkbdphmnogoloiib/)
-- **Source Code**: [GitHub Repository](https://github.com/mawi-officiel/MAWI_TAP_AURA)
+- **Source Code**: [GitHub Repository](https://github.com/mawi-officiel/MAWI_LATIN_TO_CYRILLIC)
 - **Developer Article**: [Read More](https://www.mawiman.com/2025/08/mawi-latin-to-cyrillic.html)
 - **Developer Website**: [https://www.mawiman.com/](https://www.mawiman.com/)
 

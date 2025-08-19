@@ -127,7 +127,7 @@ All contributions will be evaluated based on:
 
 **Project Owner**: Ayoub Alarjani (MAWI MAN)
 - **Website**: [https://www.mawiman.com/](https://www.mawiman.com/)
-- **Project Repository**: [GitHub](https://github.com/mawi-officiel/MAWI_TAP_AURA)
+- **Project Repository**: [GitHub](https://github.com/mawi-officiel/MAWI_LATIN_TO_CYRILLIC)
 
 ## ⚖️ Legal Considerations
 
