@@ -219,6 +219,13 @@ If you encounter any issues or have questions:
 
 ## 🔄 Version History
 
+### v3.0.0 (January 2025)
+- New starting version for extension development
+- Enhanced Chrome extension with auto-detection
+- Improved web application with dual conversion modes
+- Privacy-focused design
+- Complete documentation and updated architecture
+
 ### v1.0.0 (January 2025)
 - Initial release
 - Chrome extension with auto-detection
