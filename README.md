@@ -38,7 +38,7 @@ A powerful Chrome extension and web application that automatically detects Cyril
 5. Copy the converted text
 
 ### Option 2: Install Chrome Extension
-1. Download from [Chrome Web Store](https://chromewebstore.google.com/category/extensions)
+1. Download from [Chrome Web Store](https://chromewebstore.google.com/detail/blldclkhnlhcinhjdkbdphmnogoloiib/)
 2. Click "Add to Chrome"
 3. The extension will automatically start detecting Cyrillic characters
 4. Use the popup interface for text conversion
@@ -48,7 +48,7 @@ A powerful Chrome extension and web application that automatically detects Cyril
 ### Chrome Extension Installation
 
 #### From Chrome Web Store (Recommended)
-1. Visit the [Chrome Web Store](https://chromewebstore.google.com/category/extensions)
+1. Visit the [Chrome Web Store](https://chromewebstore.google.com/detail/blldclkhnlhcinhjdkbdphmnogoloiib/)
 2. Search for "MAWI LATIN TO CYRILLIC"
 3. Click "Add to Chrome"
 4. Confirm installation
@@ -169,7 +169,7 @@ MAWI_LATIN_TO_CYRILLIC/
 ## 🌐 Links & Resources
 
 - **Live Website**: [https://mawi-officiel.github.io/MAWI_LATIN_TO_CYRILLIC/](https://mawi-officiel.github.io/MAWI_LATIN_TO_CYRILLIC/)
-- **Chrome Extension**: [Chrome Web Store](https://chromewebstore.google.com/category/extensions)
+- **Chrome Extension**: [Chrome Web Store](https://chromewebstore.google.com/detail/blldclkhnlhcinhjdkbdphmnogoloiib/)
 - **Source Code**: [GitHub Repository](https://github.com/mawi-officiel/MAWI_TAP_AURA)
 - **Developer Article**: [Read More](https://www.mawiman.com/2025/08/mawi-latin-to-cyrillic.html)
 - **Developer Website**: [https://www.mawiman.com/](https://www.mawiman.com/)
