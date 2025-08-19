@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "MAWI LATIN TO CYRILLIC",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "description": "Detect Cyrillic characters in text fields and convert Latin text to Cyrillic with Normal and Professional modes.",
   "author": "Ayoub Alarjani (MAWI MAN)",
   "homepage_url": "https://www.mawiman.com/",
