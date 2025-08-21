@@ -1,4 +1,4 @@
-# MAWI LATIN TO CYRILLIC
+# MAWI - LATIN TO CYRILLIC
 
 ![MAWI Logo](icons/icon.png)
 
